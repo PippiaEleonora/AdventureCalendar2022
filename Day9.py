@@ -49,20 +49,19 @@ for line in Array:
         elif move[0] == "R":
             x_R[0] += 1
         for t in range(1,10):
-            if move[0] == "U":
-                if y_R[t-1] > y_R[t] + 1:
-                    y_R[t] += 1
-                    x_R[t] = x_R[t-1]
-            elif move[0] == "D":
-               if y_R[t-1] < y_R[t] - 1:
+            if abs(y_R[t-1]-y_R[t])>1 and abs(x_R[t-1]-x_R[t])>1:
+                y_R[t] += (y_R[t-1]-y_R[t])/(abs(y_R[t-1]-y_R[t]))
+                x_R[t] += (x_R[t-1]-x_R[t])/(abs(x_R[t-1]-x_R[t]))
+            elif y_R[t-1] > y_R[t] + 1:
+                y_R[t] += 1
+                x_R[t] = x_R[t-1]
+            elif y_R[t-1] < y_R[t] - 1:
                 y_R[t] -= 1
                 x_R[t] = x_R[t-1]
-            elif move[0] == "L":
-                if x_R[t-1] < x_R[t] - 1:
-                   x_R[t] -= 1
-                   y_R[t] = y_R[t-1]
-            elif move[0] == "R":
-               if x_R[t-1] > x_R[t] + 1:
+            elif x_R[t-1] < x_R[t] - 1:
+                x_R[t] -= 1
+                y_R[t] = y_R[t-1]
+            elif x_R[t-1] > x_R[t] + 1:
                 x_R[t] += 1
                 y_R[t] = y_R[t-1]
         if not [x_R[9], y_R[9]] in Visited:
