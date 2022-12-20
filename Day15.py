@@ -71,15 +71,15 @@ if __name__ == "__main__":
     
     # Second Part
     
-    
-    for s in range(0,4000001):
+    maximum = 4000000
+    for s in range(maximum+1):
         Lb = [0]
         Ub = [4000000]
         for i in range(n):
-            if SensorInfo[i][3]<=s and SensorInfo[i][4]>=s:
-                delta = abs(SensorInfo[i][2]-abs(SensorInfo[i][1]-s))
-                lb_curr = SensorInfo[i][0]-delta
-                ub_curr = SensorInfo[i][0]+delta
+            if Y_sensor[i]-Distance[i]<=s and Y_sensor[i]+Distance[i]>=s:
+                delta = abs(Distance[i]-abs(Y_sensor[i]-s))
+                lb_curr = X_sensor[i]-delta
+                ub_curr = X_sensor[i]+delta
                 idx=0
                 stop = False
                 while idx<len(Lb) and not stop:
@@ -92,13 +92,17 @@ if __name__ == "__main__":
                             Ub.insert(idx+1, Ub[idx])
                             Ub[idx] = lb_curr-1
                             stop = True
+                        elif lb_curr>Ub[idx]:
+                            idx += 1
                         else:
                             Ub[idx] = lb_curr-1
                             idx += 1
-                    else:
+                    elif ub_curr>Lb[idx]:
                         Lb[idx] = ub_curr+1
                         stop = True
+                    else:
+                        stop = True              
+                    
         if len(Lb)>0:
-            boh=1
             print(Lb[0]*4000000+s)
             break
